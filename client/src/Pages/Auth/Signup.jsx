@@ -5,17 +5,18 @@ import AuthRedirect from "../../Components/AuthRedirect/AuthRedirect"
 
 const Signup = () => {
   const Container = styled(Box)({
-    height: '100vh',
+    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8'
+    backgroundColor: '#f8f8f8',
+    padding: '2rem'
   })
   return (
     <Container>
       <SignupForm />
-      <AuthRedirect />
+      <AuthRedirect auth="signup"/>
     </Container>
   )
 }
