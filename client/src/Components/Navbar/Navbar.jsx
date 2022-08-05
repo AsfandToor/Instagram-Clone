@@ -3,6 +3,7 @@ import {
     Paper,
     Box
 } from "@mui/material"
+import { styled } from "@mui/system"
 import SearchBar from "../SearchBar/SearchBar"
 import {
     Home as HomeIcon,
@@ -13,13 +14,24 @@ import {
 } from "@mui/icons-material"
 
 const Navbar = () => {
+    const ImageContainer = styled(Box)({
+        width: '30px',
+        height: '30px',
+        overflow: 'hidden',
+        borderRadius: '50%',
+        cursor: 'pointer'
+    })
   return (
     <>
         <Paper sx={{
+            position: 'sticky',
+            top: 0,
             padding: {
                 xs: '1.3rem 2%',
                 sm: '1.3rem 15%'
-            }
+            },
+            backgroundColor: '#fff',
+            zIndex: 5
         }}>
             <Box sx={{
                 width: '100%',
@@ -62,6 +74,14 @@ const Navbar = () => {
                         marginRight: '1rem',
                         cursor: 'pointer'
                     }}/>
+                    <ImageContainer>
+                        <img style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: 'center'
+                        }} src="images/person.jpg" alt="" />
+                    </ImageContainer>
                 </Box>
             </Box>
         </Paper>

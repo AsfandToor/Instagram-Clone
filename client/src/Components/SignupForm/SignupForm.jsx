@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { 
     Paper,
     Typography,
@@ -7,8 +9,21 @@ import TextField from '../TextField/TextField'
 import FacebookLoginButton from '../Buttons/FacebookLoginButton'
 import Divider from '../Divider/Divider'
 import StretchedButton from '../Buttons/StretchedButton'
+import { createUserAuth } from '../../Firebase/firebase'
 
 const SignupForm = () => {
+    const navigation = useNavigate()
+    const initalFields = {
+        email: "",
+        name: "",
+        username: "",
+        password: ""
+    }
+    const [formFields, setFormFields] = useState(initalFields)
+    const formSubmitHandler = async (e) => {
+        e.preventDefault()
+        const response = await createUserAuth(formFields)
+    }
   return (
     <Paper sx={{
         width: '300px',
@@ -33,26 +48,35 @@ const SignupForm = () => {
         <FacebookLoginButton />
         <Divider />
         <Box width='100%' marginBottom='1rem'>
-            <form>
+            <form onSubmit={formSubmitHandler}>
                 <TextField 
-                    fieldName="credentials"
-                    fieldPlaceholder="Mobile number or email address"
-                    fieldType="text"/>
+                    fieldName="email"
+                    fieldPlaceholder="Email address"
+                    fieldType="email"
+                    info={formFields}
+                    setInfo={setFormFields}/>
                 
                 <TextField 
                     fieldName="name"
                     fieldPlaceholder="Full Name"
-                    fieldType="text"/>
+                    fieldType="text"
+                    info={formFields}
+                    setInfo={setFormFields}/>
 
                 <TextField 
                     fieldName="username"
                     fieldPlaceholder="Username"
-                    fieldType="text"/>
+                    fieldType="text"
+                    info={formFields}
+                    setInfo={setFormFields}/>
                     
                 <TextField 
                     fieldName="password"
                     fieldPlaceholder="Password"
-                    fieldType="password"/>
+                    fieldType="password"
+                    info={formFields}
+                    setInfo={setFormFields}/>
+                <button style={{ display: 'none' }} type='submit'></button>
             </form>
         </Box>
         <Box sx={{
@@ -67,7 +91,7 @@ const SignupForm = () => {
                 By signing up, you agree to our Terms, Privacy Policy and Cookies Policy.
              </Typography>
         </Box>
-        <StretchedButton />
+        <StretchedButton clickHandler={formSubmitHandler}/>
     </Paper>
   )
 }

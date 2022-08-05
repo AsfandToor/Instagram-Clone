@@ -1,14 +1,16 @@
-import { Box } from "@mui/system"
+import { 
+  Box
+} from "@mui/material"
 import { styled } from "@mui/system"
 
-const TextField = ({ fieldName, fieldPlaceholder, fieldType }) => {
-    const TextFieldBox = styled(Box)({
+const TextField = ({ fieldName, fieldPlaceholder, fieldType, info, setInfo }) => {
+    const textFieldBox = {
         border: '1px solid lightgray',
         borderRadius: '2px',
         backgroundColor: '#f5f5f5 ',
         padding: '1rem',
         marginBottom: '1rem'
-    })
+    }
     const TextFieldStyle = {
         fontSize: '1.2rem',
         border: 'none',
@@ -17,14 +19,20 @@ const TextField = ({ fieldName, fieldPlaceholder, fieldType }) => {
         backgroundColor: 'transparent'
     }
 
+    const fieldHandler = (e) => {
+      setInfo({ ...info, [fieldName]: e.target.value })
+    }
+
   return (
-    <TextFieldBox>
+    <div style={textFieldBox}>
         <input 
         name={fieldName} 
         placeholder={fieldPlaceholder} 
         type={fieldType} 
-        style={TextFieldStyle} />
-    </TextFieldBox>
+        value={info[fieldName]}
+        style={TextFieldStyle}
+        onChange={fieldHandler} />
+    </div>
   )
 }
 

@@ -3,10 +3,12 @@ import {
     Button
 } from "@mui/material"
 
-const StretchedButton = () => {
+const StretchedButton = ({ clickHandler }) => {
   return (
     <Box width='100%'>
-        <Button sx={{
+        <Button
+        onClick={clickHandler} 
+        sx={{
             width: '100%',
             fontWeight: 'bold',
             fontSize: '1.3rem',

@@ -8,7 +8,10 @@ import CommentField from "../CommentField/CommentField"
 
 const PostCard = () => {
   return (
-    <Paper sx={{ width: '460px' }}>
+    <Paper sx={{ 
+        width: '460px',
+        marginBottom: '2rem'
+    }}>
         <CardHeader />
         <PostContent />
         <CommentField />
