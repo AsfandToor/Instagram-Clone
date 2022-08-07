@@ -1,3 +1,5 @@
+import { useState, useEffect, useRef } from "react"
+import { useLocation } from "react-router-dom"
 import { 
     Box,
     Paper,
@@ -7,9 +9,10 @@ import {
 } from "@mui/material"
 import { MailOutline as MailIcon } from "@mui/icons-material"
 import { styled } from "@mui/system"
-import { useState } from "react"
 import AuthRedirect from "../../Components/AuthRedirect/AuthRedirect"
 import StretchedButton from "../../Components/Buttons/StretchedButton"
+import { getUserData } from "../../Firebase/firebase"
+import emailjs from "@emailjs/browser"
 
 const Wrapper = styled(Box)({
     minHeight: 'calc(100% - 59px)',
@@ -60,7 +63,25 @@ const TextFieldStyle = {
 
 const Confirmation = () => {
     const [code, setCode] = useState('')
-
+    const [formCode, setFormCode] = useState('')
+    const { state } = useLocation()
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const response = await getUserData(state.user_id)
+            const { email, name } = response.data()
+            const hash = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
+            await emailjs.send("service_hhe8izr", "template_eicdwlw", { email, name, code: hash }, "aE5rSHgFppRF6PKDQ")
+            setCode(hash)
+        }
+        fetchUserData()
+    }, [])
+    const formSubmitHandler = (e) => {
+        e.preventDefault()
+        if (formCode === code)
+            console.log("Verified")
+        else
+            console.log("Wrong Code")
+    }
   return (
     <Wrapper>
         <Container>
@@ -74,16 +95,19 @@ const Confirmation = () => {
                 cursor: 'pointer',
                 fontWeight: '600'
             }}>Resend Code.</Link></MainText>
-            <div style={TextFieldBox}>
-                <input 
-                    name="confirmation"
-                    placeholder="Confirmation Code" 
-                    type="text" 
-                    value={code}
-                    style={TextFieldStyle}
-                    onChange={e => setCode(e.target.value)}/>
-            </div>
-            <StretchedButton />
+            <form onSubmit={formSubmitHandler}>
+                <div style={TextFieldBox}>
+                    <input 
+                        name="code"
+                        placeholder="Confirmation Code" 
+                        type="text" 
+                        value={formCode}
+                        style={TextFieldStyle}
+                        onChange={e => setFormCode(e.target.value)}/>
+                </div>
+                <button type="submit" style={{display: 'none'}}></button>
+            </form>
+            <StretchedButton clickHandler={formSubmitHandler}/>
         </Container>
         <AuthRedirect auth="signup"/>
     </Wrapper>

@@ -22,7 +22,13 @@ const SignupForm = () => {
     const [formFields, setFormFields] = useState(initalFields)
     const formSubmitHandler = async (e) => {
         e.preventDefault()
-        const response = await createUserAuth(formFields)
+        try {
+            const response = await createUserAuth(formFields)
+            navigation("/verify", { state: { user_id: response.id} })
+        }
+        catch(error) {
+            console.log(error)
+        }
     }
   return (
     <Paper sx={{

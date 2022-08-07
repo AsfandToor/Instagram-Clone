@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { 
     Paper,
     Link,
@@ -9,6 +10,14 @@ import FacebookLoginButton from '../Buttons/FacebookLoginButton'
 import Divider from '../Divider/Divider'
 
 const LoginForm = () => {
+    const initalFields = {
+        email: "",
+        password: ""
+    }
+    const [formFields, setFormFields] = useState(initalFields)
+    const formSubmitHandler = (e) => {
+        e.preventDefault()
+    }
   return (
     <Paper sx={{
         width: '300px',
@@ -23,18 +32,22 @@ const LoginForm = () => {
             <img src="images/instagram-logo.png" alt="Instagram Logo" />
         </Box>
         <Box width='100%' marginBottom='1rem'>
-            <form>
+            <form onSubmit={formSubmitHandler}>
                 <TextField 
-                    fieldName="credentials"
-                    fieldPlaceholder="Phone number, username or email address"
-                    fieldType="text"/>
+                    fieldName="email"
+                    fieldPlaceholder="Email Address"
+                    fieldType="text"
+                    info={formFields}
+                    setInfo={setFormFields}/>
                 <TextField 
                     fieldName="password"
                     fieldPlaceholder="Password"
-                    fieldType="password"/>
+                    fieldType="password"
+                    info={formFields}
+                    setInfo={setFormFields}/>
             </form>
         </Box>
-        <StretchedButton />
+        <StretchedButton clickHandler={formSubmitHandler}/>
         <Divider />
         <FacebookLoginButton />
         <Link sx={{ textDecoration: 'none', fontSize: '1.2rem' }}>Forgot your password?</Link>

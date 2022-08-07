@@ -3,7 +3,9 @@ import { initializeApp } from "firebase/app";
 import { 
   getFirestore,
   collection,
+  doc,
   addDoc,
+  getDoc,
   getDocs,
   query,
   where
@@ -25,25 +27,27 @@ const firebaseConfig = {
 // Initialize Database and Authentication
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
-const auth = getAuth(app)
+export const auth = getAuth(app)
 
 // Functionality
 export const createUserAuth = async (user) => {
   const { email, name, username, password } = user
-  try {
-    const userExists = await checkExistingUsername(db, collection, getDocs, query, where, username)
-    if (userExists) {
-      throw new Error("auth/username-already-in-use")
-    }
-    const response = await createUserWithEmailAndPassword(auth, email, password)
-    const docRef = await addDoc(collection(db, 'users'), { 
-      name,
-      username,
-      auth: response.user.uid
-    })
-    console.log(docRef)
+  const userExists = await checkExistingUsername(db, collection, getDocs, query, where, username)
+  if (userExists) {
+    throw new Error("auth/username-already-in-use")
   }
-  catch (error) {
-    console.log(error.message)
-  }
+  const response = await createUserWithEmailAndPassword(auth, email, password)
+  const docRef = await addDoc(collection(db, 'users'), { 
+    email,
+    name,
+    username,
+    auth: response.user.uid
+  })
+  return docRef
+}
+
+export const getUserData = async (id) => {
+  const docRef = doc(db, "users", id)
+  const response = await getDoc(docRef)
+  return response
 }

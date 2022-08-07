@@ -1,7 +1,10 @@
+import { useContext } from 'react'
 import { 
   Routes,
-  Route
+  Route,
+  Navigate
 } from 'react-router-dom'
+import { AuthContext } from './Context/auth.context'
 import Navbar from './Components/Navbar/Navbar'
 import Home from './Pages/Home/Home'
 import Inbox from './Pages/Inbox/Inbox'
@@ -11,10 +14,11 @@ import Confirmation from './Pages/Confirmation/Confirmation'
 
 
 const App = () => {
+  const { currentUser } = useContext(AuthContext)
   return (
     <Routes>
       <Route path="/" element={<Navbar />}>
-        <Route  path="/" element={<Home />}/>
+        <Route  path="/" element={currentUser ? <Home /> : <Navigate to="/login"/>}/>
         <Route  path="/inbox" element={<Inbox />}/>
         <Route  path="/verify" element={<Confirmation />}/>
       </Route>
