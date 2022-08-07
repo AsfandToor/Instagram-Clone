@@ -1,30 +1,23 @@
 import { useState } from 'react'
 import { 
     Paper,
-    Link,
     Box
 } from '@mui/material'
 import TextField from '../TextField/TextField'
 import StretchedButton from '../Buttons/StretchedButton'
-import FacebookLoginButton from '../Buttons/FacebookLoginButton'
-import Divider from '../Divider/Divider'
-import { loginUserAuth } from '../../Firebase/firebase'
-import { useNavigate } from 'react-router-dom'
 
-const LoginForm = () => {
+const FacebookForm = () => {
     const initalFields = {
-        email: "",
+        name: "",
+        username: "",
         password: ""
     }
     const [formFields, setFormFields] = useState(initalFields)
-    const navigation = useNavigate()
     const formSubmitHandler = async (e) => {
         e.preventDefault()
         try {
-            const response = await loginUserAuth(formFields)
-            navigation("/")
         }
-        catch (error) {
+        catch(error) {
             console.log(error)
         }
     }
@@ -37,33 +30,52 @@ const LoginForm = () => {
         padding: '3rem'
     }}>
         <Box sx={{
-            marginBottom: "2rem"
+            marginBottom: '2rem'
         }}>
-            <img src="images/instagram-logo.png" alt="Instagram Logo" />
+            <img src="images/instagram-logo.png" alt='Instagram Logo'/>
+        </Box>
+        <Box sx={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            overflow: 'hidden',
+            marginBottom: '1.5rem'
+        }}>
+            <img style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center'
+             }} src="images/person.jpg" alt="Image" />
         </Box>
         <Box width='100%' marginBottom='1rem'>
             <form onSubmit={formSubmitHandler}>
                 <TextField 
-                    fieldName="email"
-                    fieldPlaceholder="Email Address"
+                    fieldName="name"
+                    fieldPlaceholder="Full Name"
                     fieldType="text"
                     info={formFields}
                     setInfo={setFormFields}/>
+
+                <TextField 
+                    fieldName="username"
+                    fieldPlaceholder="Username"
+                    fieldType="text"
+                    info={formFields}
+                    setInfo={setFormFields}/>
+                    
                 <TextField 
                     fieldName="password"
                     fieldPlaceholder="Password"
                     fieldType="password"
                     info={formFields}
                     setInfo={setFormFields}/>
-                <button type='submit' style={{ display: 'none' }}></button>
+                <button style={{ display: 'none' }} type='submit'></button>
             </form>
         </Box>
         <StretchedButton clickHandler={formSubmitHandler}/>
-        <Divider />
-        <FacebookLoginButton />
-        <Link sx={{ textDecoration: 'none', fontSize: '1.2rem' }}>Forgot your password?</Link>
     </Paper>
   )
 }
 
-export default LoginForm
+export default FacebookForm

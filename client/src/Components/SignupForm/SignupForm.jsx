@@ -9,7 +9,7 @@ import TextField from '../TextField/TextField'
 import FacebookLoginButton from '../Buttons/FacebookLoginButton'
 import Divider from '../Divider/Divider'
 import StretchedButton from '../Buttons/StretchedButton'
-import { createUserAuth } from '../../Firebase/firebase'
+import { createUserAuth, createUserWithFacebookAuth } from '../../Firebase/firebase'
 
 const SignupForm = () => {
     const navigation = useNavigate()
@@ -29,6 +29,10 @@ const SignupForm = () => {
         catch(error) {
             console.log(error)
         }
+    }
+    const facebookLoginHandler = async () => {
+        const response = await createUserWithFacebookAuth()
+        console.log(response)
     }
   return (
     <Paper sx={{
@@ -51,7 +55,7 @@ const SignupForm = () => {
                 margin: '1.5rem 0'
             }}>Sign up to see photos and videos from your friends.</Typography>
         </Box>
-        <FacebookLoginButton />
+        <FacebookLoginButton onClick={facebookLoginHandler}/>
         <Divider />
         <Box width='100%' marginBottom='1rem'>
             <form onSubmit={formSubmitHandler}>

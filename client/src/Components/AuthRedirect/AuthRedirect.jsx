@@ -1,10 +1,16 @@
 import { 
     Paper,
-    Typography,
-    Link
+    Typography
 } from "@mui/material"
+import { Link } from "react-router-dom"
 
 const AuthRedirect = ({ auth }) => {
+    const linkStyles = {
+        fontSize: '1.4rem',
+        textDecoration: 'none',
+        marginLeft: '1rem',
+        cursor: 'pointer'
+    }
   return (
     <Paper sx={{
         display: 'flex',
@@ -19,14 +25,16 @@ const AuthRedirect = ({ auth }) => {
         }}>
             { auth == 'signup' ? "Have an account?": "Don't have an account?"}
         </Typography>
-        <Link sx={{
-            fontSize: '1.4rem',
-            textDecoration: 'none',
-            marginLeft: '1rem',
-            cursor: 'pointer'
-        }}>
-            { auth == 'signup' ? 'Log In': 'Sign up'}
-        </Link>
+        {
+             auth == 'signup' ?
+             <Link to="/login" style={linkStyles}>
+                Log In
+            </Link> :
+            <Link to="/signup" style={linkStyles}>
+                Sign up
+            </Link>
+        }
+        
     </Paper>
   )
 }

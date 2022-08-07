@@ -10,7 +10,13 @@ import {
   query,
   where
 } from "firebase/firestore"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  FacebookAuthProvider,
+  signInWithPopup
+} from "firebase/auth"
 import { checkExistingUsername } from "./firebase.utils"
 
 // Firebase configuration
@@ -29,6 +35,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 export const auth = getAuth(app)
 
+// Sign in Providers
+const provider = new FacebookAuthProvider()
+
 // Functionality
 export const createUserAuth = async (user) => {
   const { email, name, username, password } = user
@@ -46,8 +55,23 @@ export const createUserAuth = async (user) => {
   return docRef
 }
 
+export const createUserWithFacebookAuth = async () => {
+  const response = await signInWithPopup(auth, provider)
+  return response
+}
+
+export const loginUserAuth = async (user) => {
+  const { email, password } = user
+  const response = await signInWithEmailAndPassword(auth, email, password)
+  return response
+}
+
 export const getUserData = async (id) => {
   const docRef = doc(db, "users", id)
   const response = await getDoc(docRef)
   return response
+}
+
+export const logoutUserAuth = () => {
+  auth.signOut()
 }

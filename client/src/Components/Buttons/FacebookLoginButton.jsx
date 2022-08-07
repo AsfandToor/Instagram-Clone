@@ -4,9 +4,9 @@ import {
 } from "@mui/material"
 import { Facebook } from '@mui/icons-material'
 
-const FacebookLoginButton = () => {
+const FacebookLoginButton = ({ onClick }) => {
   return (
-    <Box width='100%'>
+    <Box width='100%' onClick={onClick}>
         <Button sx={{
             width: '100%',
             fontWeight: 'bold',

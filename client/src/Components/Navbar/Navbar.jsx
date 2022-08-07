@@ -1,3 +1,4 @@
+import useComponentVisible from "../../Hooks/useComponentVisible"
 import { Outlet } from "react-router-dom"
 import { 
     Paper,
@@ -12,15 +13,18 @@ import {
     AssistantDirection as NavIcon,
     FavoriteBorder as FavoriteIcon
 } from "@mui/icons-material"
+import Menu from "./Menu"
+
+const ImageContainer = styled(Box)({
+    width: '30px',
+    height: '30px',
+    overflow: 'hidden',
+    borderRadius: '50%',
+    cursor: 'pointer'
+})
 
 const Navbar = () => {
-    const ImageContainer = styled(Box)({
-        width: '30px',
-        height: '30px',
-        overflow: 'hidden',
-        borderRadius: '50%',
-        cursor: 'pointer'
-    })
+    const {ref, isComponentVisible, setIsComponentVisible} = useComponentVisible(false)
   return (
     <>
         <Paper sx={{
@@ -74,14 +78,19 @@ const Navbar = () => {
                         marginRight: '1rem',
                         cursor: 'pointer'
                     }}/>
-                    <ImageContainer>
-                        <img style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: 'center'
-                        }} src="images/person.jpg" alt="" />
-                    </ImageContainer>
+                    <Box ref={ref} sx={{
+                        position: 'relative',
+                    }}>
+                        <ImageContainer onClick={() => setIsComponentVisible(prev => !prev)}>
+                            <img style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                objectPosition: 'center'
+                            }} src="images/person.jpg" alt="" />
+                        </ImageContainer>
+                        { isComponentVisible && <Menu /> }
+                    </Box>
                 </Box>
             </Box>
         </Paper>

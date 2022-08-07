@@ -10,6 +10,7 @@ import Home from './Pages/Home/Home'
 import Inbox from './Pages/Inbox/Inbox'
 import Signup from "./Pages/Auth/Signup"
 import Login from "./Pages/Auth/Login"
+import FacebookSignup from './Pages/Auth/FacebookSignup'
 import Confirmation from './Pages/Confirmation/Confirmation'
 
 
@@ -22,8 +23,9 @@ const App = () => {
         <Route  path="/inbox" element={<Inbox />}/>
         <Route  path="/verify" element={<Confirmation />}/>
       </Route>
-      <Route path='/login' element={<Login />}/>
-      <Route path='/signup' element={<Signup />}/>
+      <Route path='/login' element={!currentUser ? <Login /> : <Navigate to="/"/>}/>
+      <Route path='/signup' element={!currentUser ? <Signup /> : <Navigate to="/"/>}/>
+      <Route path='/facebook-signup' element={!currentUser ? <FacebookSignup /> : <Navigate to="/"/>}/>
     </Routes>
   )
 }
